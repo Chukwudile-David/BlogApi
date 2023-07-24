@@ -25,5 +25,6 @@ public interface BlogUserInterface {
     void deletecomment(Long postId, Long commentId,HttpServletRequest request);
     GenericResponse getAllCommentsByBlogUser(Long postId,HttpServletRequest request);
     GenericResponse searchPostsByCategory(Category category,HttpServletRequest request);
-    public void likePost(Long PostId,HttpServletRequest request);
+    public GenericResponse likePost(Long PostId,HttpServletRequest request);
+    GenericResponse logoutBlogUser(HttpServletRequest request);
 }

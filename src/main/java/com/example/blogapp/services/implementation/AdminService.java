@@ -55,7 +55,7 @@ public class AdminService implements AdminInterface {
         HttpSession session = request.getSession();
         session.setAttribute("superuserResponse",superuserResponse);
 
-        return new GenericResponse("succesfully logged in","00",HttpStatus.OK);
+        return new GenericResponse("successfully logged in","00",HttpStatus.OK);
 
 
     }
@@ -113,7 +113,7 @@ public class AdminService implements AdminInterface {
             Post savedpost = postRepository.save(newpost);
 
             PostResponseDto postResponseDto = entityMapper.postToDto(savedpost);
-            return new GenericResponse("Succesfully Created","00",postResponseDto, HttpStatus.CREATED);
+            return new GenericResponse("Successfully Created","00",postResponseDto, HttpStatus.CREATED);
 
         }
 

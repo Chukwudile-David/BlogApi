@@ -21,7 +21,7 @@ public class PostRepositoryTest {
 
     @Test
     public void GivenPost_WhenSave_ThenReturnObject(){
-//        PostRequestDto build = PostRequestDto.builder().title("chop").content("yeahh").build();
+
         Post heyyy = Post.builder().title("heyyy").content("234455").build();
         //When
         Post actual = postRepository.save(heyyy);

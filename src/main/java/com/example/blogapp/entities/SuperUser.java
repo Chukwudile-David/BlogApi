@@ -24,5 +24,9 @@ public class SuperUser {
     @OneToMany(mappedBy = "superUser",cascade = CascadeType.ALL)
     private List<Post> posts = new ArrayList<>();
 
-
+    public SuperUser(Long admin_Id, String username, String password) {
+        this.admin_Id = admin_Id;
+        this.username = username;
+        this.password = password;
+    }
 }

@@ -40,5 +40,11 @@ public class Comment {
     @Column(name = "likes")
     private List<Likes> likes = new ArrayList<>();
 
-
+    public Comment(Long comment_Id, String description, LocalDateTime createdAt, LocalDateTime updatedAt, Post post) {
+        this.comment_Id = comment_Id;
+        this.description = description;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.post = post;
+    }
 }

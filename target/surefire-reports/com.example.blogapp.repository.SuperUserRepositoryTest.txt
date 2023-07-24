@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.example.blogapp.repository.SuperUserRepositoryTest
+-------------------------------------------------------------------------------
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.287 s - in com.example.blogapp.repository.SuperUserRepositoryTest

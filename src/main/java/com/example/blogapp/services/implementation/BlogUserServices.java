@@ -5,11 +5,13 @@ import com.example.blogapp.dto.request.CommentRequestDto;
 import com.example.blogapp.dto.response.*;
 import com.example.blogapp.entities.BlogUser;
 import com.example.blogapp.entities.Comment;
+import com.example.blogapp.entities.Likes;
 import com.example.blogapp.entities.Post;
 import com.example.blogapp.enums.Category;
 import com.example.blogapp.exceptions.UnauthorizedAccessException;
 import com.example.blogapp.repository.BlogUserRepository;
 import com.example.blogapp.repository.CommentRepository;
+import com.example.blogapp.repository.LikeRepository;
 import com.example.blogapp.repository.PostRepository;
 import com.example.blogapp.services.BlogUserInterface;
 import com.example.blogapp.utils.EntityMapper;
@@ -31,7 +33,9 @@ public class BlogUserServices implements BlogUserInterface {
     private final BlogUserRepository blogUserRepository;
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
+    private  final LikeRepository likeRepository;
     private final EntityMapper entityMapper;
+
 
     @Override
     public GenericResponse createuser(BlogUserRequestDto blogUserRequestDto) {
@@ -254,12 +258,40 @@ public class BlogUserServices implements BlogUserInterface {
     }
 
     @Override
-    public void likePost(Long PostId, HttpServletRequest request) {
+    public GenericResponse likePost(Long PostId, HttpServletRequest request) {
         HttpSession session = request.getSession();
         BlogUserResponseDto response = (BlogUserResponseDto)session.getAttribute("bloguser");
         Optional<BlogUser> optionalBlogUser = blogUserRepository.findById(response.getId());
         if (optionalBlogUser.isEmpty()) {
             throw new UnauthorizedAccessException("Unauthorized user");
+        }
+        Optional<Post> optionalPost = postRepository.findById(PostId);
+        if (optionalPost.isEmpty()) {
+           throw new UnauthorizedAccessException("This post does not exist");
+        }
+        BlogUser blogUser = optionalBlogUser.get();
+        Post post = optionalPost.get();
+
+        if (likeRepository.existsByPostAndUser(post, blogUser)) {
+            throw new UnauthorizedAccessException("You have already liked this post");
+        }
+
+        Likes like = new Likes();
+        like.setPost(post);
+        like.setUser(blogUser);
+        likeRepository.save(like);
+        return new GenericResponse("succesfully liked","00",like);
+    }
+
+    @Override
+    public GenericResponse logoutBlogUser(HttpServletRequest request) {
+        HttpSession session = request.getSession(false); // Retrieve the existing session, if it exists
+
+        if (session != null) {
+            session.invalidate(); // Invalidate the session to log the user out
+            return new GenericResponse("Successfully logged out", "00", HttpStatus.OK);
+        } else {
+            return new GenericResponse("No active session found", "01", HttpStatus.BAD_REQUEST);
         }
     }
 

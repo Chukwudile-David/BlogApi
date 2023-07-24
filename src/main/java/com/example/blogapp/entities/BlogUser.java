@@ -33,5 +33,9 @@ public class BlogUser {
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<Likes> likes = new ArrayList<>();
 
-
+    public BlogUser(Long id, String username, String password) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+    }
 }

@@ -50,4 +50,16 @@ public class BlogUserController {
         var response = blogUserInterface.searchPostsByCategory(category,request);
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
+
+    @PostMapping("/post/{postId}")
+    public ResponseEntity<?> likePost(@PathVariable("postId") Long postId, HttpServletRequest request) {
+        blogUserInterface.likePost(postId, request);
+        return ResponseEntity.ok("Liked");
+    }
+
+    @GetMapping("/logout")
+    public ResponseEntity<GenericResponse> logout(HttpServletRequest request) {
+        GenericResponse response = blogUserInterface.logoutBlogUser(request);
+        return new ResponseEntity<>(response,HttpStatus.OK);
+    }
 }
